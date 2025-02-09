@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentControll
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ImmediateNeedController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -82,6 +83,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/obituaries/{obituary}/edit', [ObituaryController::class, 'edit'])->name('obituaries.edit');
     Route::put('/obituaries/{obituary}', [ObituaryController::class, 'update'])->name('obituaries.update');
     Route::delete('/obituaries/{obituary}', [ObituaryController::class, 'destroy'])->name('obituaries.destroy');
+    
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // This should come AFTER the create route
@@ -101,3 +106,20 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 // Immediate Need Routes
 Route::get('/immediate-need', [ImmediateNeedController::class, 'index'])->name('immediate-need.index');
 Route::post('/immediate-need', [ImmediateNeedController::class, 'store'])->name('immediate-need.store');
+
+// Contact Routes
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+Route::get('/services/funeral', function () {
+    return view('services.funeral-services');
+})->name('services.funeral');
+
+Route::get('/services/burial', function () {
+    return view('services.burial');
+})->name('services.burial');
+
+Route::get('/services/cremation', function () {
+    return view('services.cremation');
+})->name('services.cremation');

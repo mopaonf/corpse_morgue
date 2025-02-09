@@ -42,19 +42,9 @@
 
                             <a href="/immediate-need" class="nav-item whitespace-nowrap">Immediate Need</a>
                             <a href="/products" class="nav-item whitespace-nowrap">Online Showroom</a>
-
-                            <!-- Plan a Funeral Dropdown -->
-                            <div class="relative group">
-                                <button class="nav-item whitespace-nowrap h-20 flex items-center">
-                                    Plan a Funeral
-                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-                                <div class="absolute left-0 w-48 top-20 bg-white border border-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Funeral Services</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Burial Services</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Memorial Services</a>
-                                </div>
-                            </div>
+                            <!-- Plan a Funeral -->
+                            
+                            <a href="/services/funeral" class="nav-item whitespace-nowrap">Funeral Services</a>
 
                             <!-- Plan Ahead Dropdown -->
                             <div class="relative group">
@@ -89,11 +79,23 @@
                         @if (Route::has('login'))
                             <div class="flex items-center space-x-4">
                                 @auth
-                                    {{-- <a href="{{ url('/dashboard') }}" class="nav-item">Dashboard</a> --}}
-                                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                                        @csrf
-                                        <button type="submit" class="nav-item">Logout</button>
-                                    </form>
+                                    <!-- Profile Dropdown -->
+                                    <div class="relative group">
+                                        <button class="nav-item flex items-center space-x-2">
+                                            <span>{{ Auth::user()->name }}</span>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                            </svg>
+                                        </button>
+                                        <div class="absolute right-0 w-48 top-12 bg-white border border-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                            <a href="{{ url('/dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                                            <a href="{{ url('/profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                            <form action="{{ route('logout') }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 @else
                                     <a href="{{ route('login') }}" class="nav-item">Login</a>
                                     @if (Route::has('register'))
