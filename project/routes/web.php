@@ -23,19 +23,23 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Admin Routes
+// Admin Routes - Keep these at the top
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AuthController::class, 'showAdminLoginForm'])
-        ->name('login')
-        ->middleware('guest:admin');
-    
-    Route::post('/login', [AuthController::class, 'adminLogin']);
-    
+    // Guest admin routes - No auth:admin middleware
+    Route::get('/login', [AuthController::class, 'showAdminLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'adminLogin'])->name('login.submit');
+
+    // Protected admin routes
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+        Route::post('/logout', [AuthController::class, 'adminLogout'])->name('logout');
         
-
-
+        // Obituary Management
+        Route::get('/obituaries', [AdminObituaryController::class, 'index'])->name('obituaries.index');
+        Route::get('/obituaries/{obituary}', [AdminObituaryController::class, 'show'])->name('obituaries.show');
+        Route::patch('/obituaries/{obituary}/status', [AdminObituaryController::class, 'updateStatus'])->name('obituaries.update-status');
+        Route::patch('/obituaries/{obituary}/notes', [AdminObituaryController::class, 'updateNotes'])->name('obituaries.update-notes');
+        
         //user routes
         Route::resource('/users', UsersController::class);
 
@@ -65,8 +69,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
         Route::get('/reports/generate', [AdminController::class, 'generateReport'])->name('reports.generate');
         Route::post('/reports/download', [AdminController::class, 'downloadReport'])->name('reports.download');
-        
-        Route::post('/logout', [AuthController::class, 'adminLogout'])->name('logout');
     });
 });
 

@@ -16,9 +16,19 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse ($obituaries as $obituary)
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                @if($obituary->image_path)
-                    <img src="{{ Storage::url($obituary->image_path) }}" alt="Obituary image" class="w-full h-48 object-cover">
-                @endif
+                <div class="h-48 w-full bg-gray-100">
+                    @if($obituary->image_path)
+                        <img 
+                            src="{{ asset('storage/' . $obituary->image_path) }}" 
+                            alt="{{ $obituary->name }}"
+                            class="w-full h-full object-cover"
+                        >
+                    @else
+                        <div class="flex items-center justify-center h-full">
+                            <span class="text-gray-400">No image</span>
+                        </div>
+                    @endif
+                </div>
                 <div class="p-4">
                     <h2 class="text-xl font-semibold text-gray-900">{{ $obituary->name }}</h2>
                     <p class="text-gray-600 text-sm">

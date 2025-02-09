@@ -25,6 +25,11 @@ class Obituary extends Model
         'approved_at' => 'datetime'
     ];
 
+    protected function getImagePathAttribute($value)
+    {
+        return $value;  // Return raw value since we'll use asset() helper in views
+    }
+
     public function funeral()
     {
         return $this->hasOne(Funeral::class);

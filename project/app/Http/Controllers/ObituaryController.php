@@ -15,6 +15,23 @@ class ObituaryController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    public function __construct()
+    {
+        $this->ensureStorageLink();
+    }
+
+    private function ensureStorageLink()
+    {
+        $target = storage_path('app/public');
+        $link = public_path('storage');
+
+        if (!file_exists($link)) {
+            if (file_exists($target)) {
+                symlink($target, $link);
+            }
+        }
+    }
+
     public function index()
     {
         $obituaries = Obituary::where(function($query) {

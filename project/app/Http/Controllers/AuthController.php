@@ -67,24 +67,27 @@ class AuthController extends Controller
     // Admin authentication methods
     public function showAdminLoginForm()
     {
-        return view('auth.admin-login');
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('admin.auth.login');
     }
 
     public function adminLogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.index'));
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ]);
+        ])->onlyInput('email');
     }
 
     public function adminLogout(Request $request)

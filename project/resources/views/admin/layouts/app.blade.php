@@ -22,7 +22,7 @@
                         <div class="h-px bg-gray-200 dark:bg-gray-700"></div>
                     </div>
                     <nav class="flex-1 space-y-0.5 flex flex-col px-1">
-                        <a href="{{ route('admin.index') }}" class="@if(request()->routeIs('admin.index')) 
+                        <a href="{{ route('admin.dashboard') }}" class="@if(request()->routeIs('admin.dashboard')) 
                             bg-gray-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400
                         @else
                             hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400

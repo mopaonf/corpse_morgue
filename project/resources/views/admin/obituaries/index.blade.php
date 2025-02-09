@@ -47,9 +47,9 @@
                         {{ $obituary->created_at->format('M d, Y') }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button onclick="openApprovalModal({{ $obituary->id }})" class="text-blue-600 hover:text-blue-900">
+                        <a href="{{ route('admin.obituaries.show', $obituary) }}" class="text-blue-600 hover:text-blue-900">
                             Review
-                        </button>
+                        </a>
                     </td>
                 </tr>
                 @endforeach
@@ -61,57 +61,4 @@
         {{ $obituaries->links() }}
     </div>
 </div>
-
-<!-- Approval Modal -->
-<div id="approvalModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen">
-        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full m-4">
-            <form id="approvalForm" method="POST" class="p-6">
-                @csrf
-                @method('PUT')
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Review Obituary</h3>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <option value="approved">Approve</option>
-                            <option value="rejected">Reject</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Notes</label>
-                        <textarea name="admin_notes" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
-                    </div>
-                </div>
-
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button type="button" onclick="closeApprovalModal()" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">
-                        Cancel
-                    </button>
-                    <button type="submit" class="bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700">
-                        Save
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-<script>
-function openApprovalModal(obituaryId) {
-    const modal = document.getElementById('approvalModal');
-    const form = document.getElementById('approvalForm');
-    form.action = `/admin/obituaries/${obituaryId}/status`;
-    modal.classList.remove('hidden');
-}
-
-function closeApprovalModal() {
-    const modal = document.getElementById('approvalModal');
-    modal.classList.add('hidden');
-}
-</script>
-@endpush
 @endsection

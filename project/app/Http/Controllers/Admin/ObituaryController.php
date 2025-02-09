@@ -59,19 +59,33 @@ class ObituaryController extends Controller
         return redirect()->route('admin.obituaries.index')->with('success', 'Obituary deleted successfully');
     }
 
+    public function show(Obituary $obituary)
+    {
+        return view('admin.obituaries.show', compact('obituary'));
+    }
+
     public function updateStatus(Request $request, Obituary $obituary)
     {
         $validated = $request->validate([
-            'status' => 'required|in:approved,rejected',
-            'admin_notes' => 'nullable|string'
+            'status' => 'required|in:approved,rejected'
         ]);
 
         $obituary->update([
             'status' => $validated['status'],
-            'admin_notes' => $validated['admin_notes'],
             'approved_at' => $validated['status'] === 'approved' ? now() : null
         ]);
 
-        return redirect()->back()->with('success', 'Obituary status updated successfully');
+        return back()->with('success', 'Obituary status updated successfully');
+    }
+
+    public function updateNotes(Request $request, Obituary $obituary)
+    {
+        $validated = $request->validate([
+            'admin_notes' => 'nullable|string'
+        ]);
+
+        $obituary->update($validated);
+
+        return back()->with('success', 'Admin notes updated successfully');
     }
 }

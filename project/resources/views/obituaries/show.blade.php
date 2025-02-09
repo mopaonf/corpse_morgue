@@ -34,11 +34,19 @@
     @endif
 
     <div class="bg-white shadow rounded-lg overflow-hidden">
-        @if($obituary->image_path)
-            <div class="w-full h-96 relative">
-                <img src="{{ Storage::url($obituary->image_path) }}" alt="{{ $obituary->name }}" class="w-full h-full object-cover">
-            </div>
-        @endif
+        <div class="w-full h-96 relative bg-gray-100">
+            @if($obituary->image_path)
+                <img 
+                    src="{{ asset('storage/' . $obituary->image_path) }}" 
+                    alt="{{ $obituary->name }}" 
+                    class="w-full h-full object-contain"
+                >
+            @else
+                <div class="flex items-center justify-center h-full">
+                    <span class="text-gray-400">No image available</span>
+                </div>
+            @endif
+        </div>
         
         <div class="p-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $obituary->name }}</h1>
